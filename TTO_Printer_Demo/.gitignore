@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/bin/Debug/net10.0-windows/TTO_Printer_Demo.dll
+/bin/Debug/net10.0-windows/TTO_Printer_Demo.exe
+/bin/Debug/net10.0-windows/TTO_Printer_Demo.pdb
+/obj/Debug/net10.0-windows/ref/TTO_Printer_Demo.dll
+/obj/Debug/net10.0-windows/refint/TTO_Printer_Demo.dll
+/obj/Debug/net10.0-windows/apphost.exe
+/obj/Debug/net10.0-windows/TTO_Printer_Demo.AssemblyInfoInputs.cache
+/obj/Debug/net10.0-windows/TTO_Printer_Demo.AssemblyInfo.cs
+/obj/Debug/net10.0-windows/TTO_Printer_Demo.csproj.FileListAbsolute.txt
+/obj/Debug/net10.0-windows/TTO_Printer_Demo.dll
+/obj/Debug/net10.0-windows/TTO_Printer_Demo.csproj.GenerateResource.cache
+/obj/Debug/net10.0-windows/TTO_Printer_Demo.pdb
+*.json
