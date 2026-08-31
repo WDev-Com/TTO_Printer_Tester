@@ -431,5 +431,6 @@ namespace TTO_Printer_Demo
                 Log("[RS-232] Transmission successful.");
             }
         }
+
     }
 }
