@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="linxlogo.ico" />
     <Content Include="linxlogog.ico" />
   </ItemGroup>
 

@@ -17,6 +17,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestPrint));
             tabControlMain = new TabControl();
             tabPrint = new TabPage();
             grpSystem = new GroupBox();
@@ -558,6 +559,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(978, 868);
             Controls.Add(tabControlMain);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(800, 915);
             Name = "TestPrint";
             StartPosition = FormStartPosition.CenterScreen;
