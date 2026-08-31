@@ -121,7 +121,7 @@
             btnDeletePrinter.BackColor = Color.LightCoral;
             btnDeletePrinter.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDeletePrinter.ForeColor = Color.White;
-            btnDeletePrinter.Location = new Point(620, 27);
+            btnDeletePrinter.Location = new Point(648, 27);
             btnDeletePrinter.Name = "btnDeletePrinter";
             btnDeletePrinter.Size = new Size(100, 32);
             btnDeletePrinter.TabIndex = 4;
@@ -133,7 +133,7 @@
             // 
             btnEditPrinter.BackColor = Color.Gainsboro;
             btnEditPrinter.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnEditPrinter.Location = new Point(510, 27);
+            btnEditPrinter.Location = new Point(538, 27);
             btnEditPrinter.Name = "btnEditPrinter";
             btnEditPrinter.Size = new Size(100, 32);
             btnEditPrinter.TabIndex = 3;
@@ -145,7 +145,7 @@
             // 
             btnAddPrinter.BackColor = Color.Gainsboro;
             btnAddPrinter.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnAddPrinter.Location = new Point(400, 27);
+            btnAddPrinter.Location = new Point(428, 27);
             btnAddPrinter.Name = "btnAddPrinter";
             btnAddPrinter.Size = new Size(100, 32);
             btnAddPrinter.TabIndex = 2;
@@ -157,7 +157,7 @@
             // 
             cmbPrinterType.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPrinterType.FormattingEnabled = true;
-            cmbPrinterType.Location = new Point(125, 30);
+            cmbPrinterType.Location = new Point(153, 30);
             cmbPrinterType.Name = "cmbPrinterType";
             cmbPrinterType.Size = new Size(260, 33);
             cmbPrinterType.TabIndex = 1;
@@ -201,7 +201,7 @@
             // cmbStopBits
             // 
             cmbStopBits.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbStopBits.Location = new Point(620, 132);
+            cmbStopBits.Location = new Point(784, 132);
             cmbStopBits.Name = "cmbStopBits";
             cmbStopBits.Size = new Size(90, 33);
             cmbStopBits.TabIndex = 15;
@@ -209,7 +209,7 @@
             // lblStopBits
             // 
             lblStopBits.AutoSize = true;
-            lblStopBits.Location = new Point(532, 135);
+            lblStopBits.Location = new Point(696, 135);
             lblStopBits.Name = "lblStopBits";
             lblStopBits.Size = new Size(88, 25);
             lblStopBits.TabIndex = 16;
@@ -218,7 +218,7 @@
             // cmbParity
             // 
             cmbParity.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbParity.Location = new Point(620, 95);
+            cmbParity.Location = new Point(784, 95);
             cmbParity.Name = "cmbParity";
             cmbParity.Size = new Size(90, 33);
             cmbParity.TabIndex = 17;
@@ -226,7 +226,7 @@
             // lblParity
             // 
             lblParity.AutoSize = true;
-            lblParity.Location = new Point(550, 98);
+            lblParity.Location = new Point(714, 98);
             lblParity.Name = "lblParity";
             lblParity.Size = new Size(69, 25);
             lblParity.TabIndex = 18;
@@ -235,7 +235,7 @@
             // cmbDataBits
             // 
             cmbDataBits.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbDataBits.Location = new Point(620, 58);
+            cmbDataBits.Location = new Point(784, 58);
             cmbDataBits.Name = "cmbDataBits";
             cmbDataBits.Size = new Size(90, 33);
             cmbDataBits.TabIndex = 19;
@@ -243,7 +243,7 @@
             // lblDataBits
             // 
             lblDataBits.AutoSize = true;
-            lblDataBits.Location = new Point(532, 61);
+            lblDataBits.Location = new Point(696, 61);
             lblDataBits.Name = "lblDataBits";
             lblDataBits.Size = new Size(87, 25);
             lblDataBits.TabIndex = 20;
@@ -252,7 +252,7 @@
             // cmbBaudRate
             // 
             cmbBaudRate.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbBaudRate.Location = new Point(382, 95);
+            cmbBaudRate.Location = new Point(546, 95);
             cmbBaudRate.Name = "cmbBaudRate";
             cmbBaudRate.Size = new Size(100, 33);
             cmbBaudRate.TabIndex = 21;
@@ -260,7 +260,7 @@
             // lblBaud
             // 
             lblBaud.AutoSize = true;
-            lblBaud.Location = new Point(275, 98);
+            lblBaud.Location = new Point(439, 98);
             lblBaud.Name = "lblBaud";
             lblBaud.Size = new Size(107, 25);
             lblBaud.TabIndex = 22;
@@ -269,7 +269,7 @@
             // cmbComPort
             // 
             cmbComPort.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbComPort.Location = new Point(382, 58);
+            cmbComPort.Location = new Point(546, 58);
             cmbComPort.Name = "cmbComPort";
             cmbComPort.Size = new Size(100, 33);
             cmbComPort.TabIndex = 23;
@@ -277,7 +277,7 @@
             // lblCom
             // 
             lblCom.AutoSize = true;
-            lblCom.Location = new Point(275, 61);
+            lblCom.Location = new Point(439, 61);
             lblCom.Name = "lblCom";
             lblCom.Size = new Size(105, 25);
             lblCom.TabIndex = 24;
@@ -285,7 +285,7 @@
             // 
             // txtTcpPort
             // 
-            txtTcpPort.Location = new Point(130, 95);
+            txtTcpPort.Location = new Point(197, 95);
             txtTcpPort.Name = "txtTcpPort";
             txtTcpPort.Size = new Size(130, 32);
             txtTcpPort.TabIndex = 25;
@@ -293,7 +293,7 @@
             // lblPort
             // 
             lblPort.AutoSize = true;
-            lblPort.Location = new Point(75, 98);
+            lblPort.Location = new Point(142, 98);
             lblPort.Name = "lblPort";
             lblPort.Size = new Size(56, 25);
             lblPort.TabIndex = 26;
@@ -301,7 +301,7 @@
             // 
             // txtIpAddress
             // 
-            txtIpAddress.Location = new Point(130, 58);
+            txtIpAddress.Location = new Point(197, 58);
             txtIpAddress.Name = "txtIpAddress";
             txtIpAddress.Size = new Size(130, 32);
             txtIpAddress.TabIndex = 27;
@@ -309,7 +309,7 @@
             // lblIp
             // 
             lblIp.AutoSize = true;
-            lblIp.Location = new Point(20, 61);
+            lblIp.Location = new Point(87, 61);
             lblIp.Name = "lblIp";
             lblIp.Size = new Size(111, 25);
             lblIp.TabIndex = 28;
@@ -318,7 +318,7 @@
             // rdoSerial
             // 
             rdoSerial.AutoSize = true;
-            rdoSerial.Location = new Point(275, 27);
+            rdoSerial.Location = new Point(439, 27);
             rdoSerial.Name = "rdoSerial";
             rdoSerial.Size = new Size(151, 29);
             rdoSerial.TabIndex = 29;
@@ -327,7 +327,7 @@
             // rdoTcp
             // 
             rdoTcp.AutoSize = true;
-            rdoTcp.Location = new Point(20, 27);
+            rdoTcp.Location = new Point(87, 27);
             rdoTcp.Name = "rdoTcp";
             rdoTcp.Size = new Size(93, 29);
             rdoTcp.TabIndex = 30;
@@ -354,7 +354,7 @@
             grpData.Size = new Size(936, 290);
             grpData.TabIndex = 2;
             grpData.TabStop = false;
-            grpData.Text = "3. Variable Print Payload (Core & Dynamic Variables)";
+            grpData.Text = "3. Variable Print Payload";
             // 
             // btnRemoveField
             // 

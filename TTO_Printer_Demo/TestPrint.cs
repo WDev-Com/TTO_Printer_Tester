@@ -152,10 +152,10 @@ namespace TTO_Printer_Demo
 
             dgvProtocols.Columns.Clear();
             dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colName", HeaderText = "Protocol Name", Width = 220 });
-            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colPrefix", HeaderText = "Prefix (Hex)", Width = 90 });
-            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCmd", HeaderText = "Command Prefix", Width = 150 });
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colPrefix", HeaderText = "Prefix (Hex)", Width = 150 });
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCmd", HeaderText = "Command Prefix", Width = 300 });
             dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colVarTemp", HeaderText = "Variable Template", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colSuffix", HeaderText = "Suffix (Hex)", Width = 90 });
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colSuffix", HeaderText = "Suffix (Hex)", Width = 150 });
 
             foreach (var p in _protocols)
             {
