@@ -12,6 +12,7 @@ namespace TTO_Printer_Demo
     public partial class TestPrint : Form
     {
         private List<PrinterProfile> _printers = new List<PrinterProfile>();
+        private List<PrinterProtocol> _protocols = new List<PrinterProtocol>();
 
         public TestPrint()
         {
@@ -41,8 +42,9 @@ namespace TTO_Printer_Demo
             cmbStopBits.DataSource = Enum.GetValues(typeof(StopBits));
             cmbStopBits.SelectedItem = StopBits.One;
 
-            // 2. Load Printers from JSON
+            // 2. Load Printers & Protocols
             RefreshPrinterProfiles();
+            LoadProtocolsToGrid();
 
             // 3. Dynamic Default Core Values
             txtBatchNo.Text = "B-" + DateTime.Now.ToString("MMyy-fff");
@@ -96,6 +98,7 @@ namespace TTO_Printer_Demo
             ToggleConnectionUI();
         }
 
+        // --- PRINTER MANAGEMENT ---
         private void btnAddPrinter_Click(object sender, EventArgs e)
         {
             using (var dialog = new PrinterConfigDialog())
@@ -106,31 +109,102 @@ namespace TTO_Printer_Demo
                     PrinterRepository.SavePrinters(_printers);
                     RefreshPrinterProfiles();
                     cmbPrinterType.SelectedItem = dialog.SelectedProfile;
-                    Log($"[SYSTEM] Added new printer: {dialog.SelectedProfile.Name} ({dialog.SelectedProfile.Protocol})");
                 }
             }
         }
 
+        private void btnEditPrinter_Click(object sender, EventArgs e)
+        {
+            if (cmbPrinterType.SelectedItem is PrinterProfile selectedProfile)
+            {
+                using (var dialog = new PrinterConfigDialog(selectedProfile))
+                {
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        PrinterRepository.SavePrinters(_printers);
+                        RefreshPrinterProfiles();
+
+                        int index = _printers.FindIndex(p => p.Id == selectedProfile.Id);
+                        if (index >= 0) cmbPrinterType.SelectedIndex = index;
+                    }
+                }
+            }
+        }
+
+        private void btnDeletePrinter_Click(object sender, EventArgs e)
+        {
+            if (cmbPrinterType.SelectedItem is PrinterProfile selectedProfile)
+            {
+                var confirm = MessageBox.Show($"Are you sure you want to delete '{selectedProfile.Name}'?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.Yes)
+                {
+                    _printers.Remove(selectedProfile);
+                    PrinterRepository.SavePrinters(_printers);
+                    RefreshPrinterProfiles();
+                }
+            }
+        }
+
+        // --- PROTOCOL MANAGEMENT (NEW: UPDATE AND DELETE OPERATIONS) ---
+        private void LoadProtocolsToGrid()
+        {
+            _protocols = ProtocolRepository.LoadProtocols();
+
+            dgvProtocols.Columns.Clear();
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colName", HeaderText = "Protocol Name", Width = 220 });
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colPrefix", HeaderText = "Prefix (Hex)", Width = 90 });
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCmd", HeaderText = "Command Prefix", Width = 150 });
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colVarTemp", HeaderText = "Variable Template", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgvProtocols.Columns.Add(new DataGridViewTextBoxColumn { Name = "colSuffix", HeaderText = "Suffix (Hex)", Width = 90 });
+
+            foreach (var p in _protocols)
+            {
+                dgvProtocols.Rows.Add(p.Name, p.PrefixHex, p.CommandPrefix, p.VariableTemplate, p.SuffixHex);
+            }
+        }
+
+        private void btnSaveProtocols_Click(object sender, EventArgs e)
+        {
+            // Acts as Create/Update based on grid edits
+            var updatedList = new List<PrinterProtocol>();
+            foreach (DataGridViewRow row in dgvProtocols.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                updatedList.Add(new PrinterProtocol
+                {
+                    Name = row.Cells[0].Value?.ToString()?.Trim() ?? "Unnamed Protocol",
+                    PrefixHex = row.Cells[1].Value?.ToString()?.Trim() ?? "",
+                    CommandPrefix = row.Cells[2].Value?.ToString()?.Trim() ?? "",
+                    VariableTemplate = row.Cells[3].Value?.ToString()?.Trim() ?? "",
+                    SuffixHex = row.Cells[4].Value?.ToString()?.Trim() ?? ""
+                });
+            }
+
+            _protocols = updatedList;
+            ProtocolRepository.SaveProtocols(_protocols);
+            MessageBox.Show("Protocols saved! Changes will take effect immediately.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnDeleteProtocol_Click(object sender, EventArgs e)
+        {
+            // Requirement 2: Delete Protocol Operation
+            if (dgvProtocols.SelectedRows.Count > 0 && !dgvProtocols.SelectedRows[0].IsNewRow)
+            {
+                dgvProtocols.Rows.Remove(dgvProtocols.SelectedRows[0]);
+            }
+            else if (dgvProtocols.CurrentRow != null && !dgvProtocols.CurrentRow.IsNewRow)
+            {
+                dgvProtocols.Rows.Remove(dgvProtocols.CurrentRow);
+            }
+        }
+
+        // --- DYNAMIC FIELDS & UI ---
         private void SetupDynamicGrid()
         {
             dgvCustomFields.Columns.Clear();
-
-            DataGridViewTextBoxColumn colKey = new DataGridViewTextBoxColumn
-            {
-                Name = "colFieldName",
-                HeaderText = "Field / Variable Name",
-                Width = 160
-            };
-
-            DataGridViewTextBoxColumn colVal = new DataGridViewTextBoxColumn
-            {
-                Name = "colFieldValue",
-                HeaderText = "Field Value",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            };
-
-            dgvCustomFields.Columns.Add(colKey);
-            dgvCustomFields.Columns.Add(colVal);
+            dgvCustomFields.Columns.Add(new DataGridViewTextBoxColumn { Name = "colFieldName", HeaderText = "Field Name", Width = 160 });
+            dgvCustomFields.Columns.Add(new DataGridViewTextBoxColumn { Name = "colFieldValue", HeaderText = "Field Value", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
 
             dgvCustomFields.Rows.Add("MRP", "Rs. 99.00");
             dgvCustomFields.Rows.Add("SHIFT", "A");
@@ -192,7 +266,9 @@ namespace TTO_Printer_Demo
             try
             {
                 var currentPrinter = cmbPrinterType.SelectedItem as PrinterProfile;
-                string protocol = currentPrinter?.Protocol ?? "Linx TT 500 (CLARiNET Protocol)";
+                if (currentPrinter == null) throw new Exception("No printer profile selected.");
+
+                string protocolName = currentPrinter.Protocol;
                 string msgName = txtMessageName.Text.Trim();
 
                 // 1. Default Core Variables
@@ -216,16 +292,17 @@ namespace TTO_Printer_Demo
                     }
                 }
 
-                // 3. Generate Payload
-                string payload = GeneratePrinterPayload(protocol, msgName, printVariables);
+                // 3. DYNAMIC Payload Generation
+                string payload = GenerateDynamicPayload(protocolName, msgName, printVariables);
 
+                // For logging display
                 string printablePayload = payload
                     .Replace("\x02", "<STX>")
                     .Replace("\x03", "<ETX>")
                     .Replace("\x0D", "<CR>")
                     .Replace("\x0A", "<LF>");
 
-                Log($"[PROTOCOL GENERATED] {printablePayload}");
+                Log($"[PAYLOAD BUILT] {printablePayload}");
 
                 if (rdoTcp.Checked)
                 {
@@ -246,78 +323,61 @@ namespace TTO_Printer_Demo
             }
         }
 
-        private string GeneratePrinterPayload(string protocol, string msgName, Dictionary<string, string> variables)
+        // --- NEW: DYNAMIC PROTOCOL ENGINE ---
+        private string GenerateDynamicPayload(string protocolName, string msgName, Dictionary<string, string> variables)
         {
-            if (protocol.IndexOf("Linx", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return BuildLinxClariNetCommand(msgName, variables);
-            }
-            else if (protocol.IndexOf("Dotsmark", StringComparison.OrdinalIgnoreCase) >= 0 || protocol.IndexOf("Dikai", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return BuildDotsmarkDikaiCommand(msgName, variables);
-            }
-            else if (protocol.IndexOf("Markem", StringComparison.OrdinalIgnoreCase) >= 0 || protocol.IndexOf("NGP", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return BuildMarkemImajeCommand(msgName, variables);
-            }
+            var protocol = _protocols.FirstOrDefault(p => p.Name.Equals(protocolName, StringComparison.OrdinalIgnoreCase));
 
-            return BuildLinxClariNetCommand(msgName, variables);
-        }
-
-        private string BuildLinxClariNetCommand(string msgName, Dictionary<string, string> variables)
-        {
-            char STX = (char)0x02;
-            char ETX = (char)0x03;
-            char CR = (char)0x0D;
+            if (protocol == null)
+                throw new Exception($"Protocol logic for '{protocolName}' not found. Please add it in the Protocols tab.");
 
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{STX}JMD");
+
+            // 1. Prefix
+            sb.Append(HexToString(protocol.PrefixHex));
+
+            // 2. Command Body Prefix
+            string cmdPrefix = (protocol.CommandPrefix ?? "").Replace("{MSG_NAME}", msgName);
+            cmdPrefix = cmdPrefix.Replace("<CR>", "\x0D").Replace("<LF>", "\x0A");
+            sb.Append(cmdPrefix);
+
+            // 3. Variables
             foreach (var kvp in variables)
             {
-                sb.Append($"|{kvp.Key}={kvp.Value}");
+                string varBlock = (protocol.VariableTemplate ?? "")
+                    .Replace("{KEY}", kvp.Key)
+                    .Replace("{VALUE}", kvp.Value)
+                    .Replace("<CR>", "\x0D")
+                    .Replace("<LF>", "\x0A");
+
+                sb.Append(varBlock);
             }
-            sb.Append($"{CR}{ETX}");
+
+            // 4. Suffix
+            sb.Append(HexToString(protocol.SuffixHex));
+
             return sb.ToString();
         }
 
-        private string BuildDotsmarkDikaiCommand(string msgName, Dictionary<string, string> variables)
+        private string HexToString(string hex)
         {
-            char STX = (char)0x02;
-            char ETX = (char)0x03;
+            if (string.IsNullOrWhiteSpace(hex)) return string.Empty;
 
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"{STX}SETVAR|NAME={msgName}");
-            foreach (var kvp in variables)
+            hex = hex.Replace(" ", ""); // Remove spaces (e.g. "0D 0A" -> "0D0A")
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < bytes.Length; i++)
             {
-                sb.Append($"|{kvp.Key}={kvp.Value}");
+                bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
             }
-            sb.Append($"\r\n{ETX}");
-            return sb.ToString();
+            return Encoding.ASCII.GetString(bytes);
         }
 
-        private string BuildMarkemImajeCommand(string msgName, Dictionary<string, string> variables)
-        {
-            char STX = (char)0x02;
-            char ETX = (char)0x03;
-            char CR = (char)0x0D;
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append(STX);
-            foreach (var kvp in variables)
-            {
-                sb.Append($"!V|{kvp.Key}|{kvp.Value}{CR}");
-            }
-            sb.Append(ETX);
-            return sb.ToString();
-        }
-
+        // --- COMMUNICATION INTERFACES ---
         private async Task SendViaTcpAsync(string payload)
         {
             string ip = txtIpAddress.Text.Trim();
             if (!int.TryParse(txtTcpPort.Text.Trim(), out int port))
-            {
                 throw new Exception("Invalid TCP Port number.");
-            }
 
             Log($"[TCP] Connecting to {ip}:{port}...");
 
@@ -326,7 +386,7 @@ namespace TTO_Printer_Demo
                 Task connectTask = client.ConnectAsync(ip, port);
                 if (await Task.WhenAny(connectTask, Task.Delay(3000)) != connectTask)
                 {
-                    throw new Exception("TCP Connection timed out. Ensure the target printer is online.");
+                    throw new Exception("TCP Connection timed out. Ensure target is online.");
                 }
 
                 using (NetworkStream stream = client.GetStream())
@@ -342,9 +402,7 @@ namespace TTO_Printer_Demo
         private async Task SendViaSerialAsync(string payload)
         {
             if (cmbComPort.SelectedItem == null)
-            {
                 throw new Exception("No COM Port selected.");
-            }
 
             string portName = cmbComPort.SelectedItem.ToString();
             int baudRate = Convert.ToInt32(cmbBaudRate.SelectedItem);
@@ -370,7 +428,6 @@ namespace TTO_Printer_Demo
 
                 byte[] buffer = Encoding.ASCII.GetBytes(payload);
                 await Task.Run(() => serialPort.Write(buffer, 0, buffer.Length));
-
                 Log("[RS-232] Transmission successful.");
             }
         }

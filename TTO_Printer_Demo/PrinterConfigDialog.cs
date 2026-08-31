@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO.Ports;
 using System.Windows.Forms;
 
@@ -7,6 +8,7 @@ namespace TTO_Printer_Demo
     public partial class PrinterConfigDialog : Form
     {
         public PrinterProfile SelectedProfile { get; private set; }
+        private List<PrinterProtocol> _availableProtocols;
 
         public PrinterConfigDialog(PrinterProfile profileToEdit = null)
         {
@@ -27,12 +29,14 @@ namespace TTO_Printer_Demo
 
         private void InitializeDropdowns()
         {
-            cmbProtocol.Items.AddRange(new string[] {
-                "Linx TT 500 (CLARiNET Protocol)",
-                "Dotsmark Systems (CIJ / TIJ / Laser / Dikai OEM)",
-                "Markem-Imaje SmartDate X40 (TTO - NGP/CoLOS)"
-            });
-            cmbProtocol.SelectedIndex = 0;
+            // Requirement 1: Load Protocols Dynamically in Printer Config
+            _availableProtocols = ProtocolRepository.LoadProtocols();
+            cmbProtocol.Items.Clear();
+            foreach (var proto in _availableProtocols)
+            {
+                cmbProtocol.Items.Add(proto.Name);
+            }
+            if (cmbProtocol.Items.Count > 0) cmbProtocol.SelectedIndex = 0;
 
             cmbComPort.Items.AddRange(SerialPort.GetPortNames());
             if (cmbComPort.Items.Count > 0) cmbComPort.SelectedIndex = 0;
@@ -56,7 +60,10 @@ namespace TTO_Printer_Demo
         private void LoadProfileToUI(PrinterProfile p)
         {
             txtPrinterName.Text = p.Name;
-            cmbProtocol.SelectedItem = p.Protocol;
+
+            if (cmbProtocol.Items.Contains(p.Protocol))
+                cmbProtocol.SelectedItem = p.Protocol;
+
             rdoTcp.Checked = p.IsTcp;
             rdoSerial.Checked = !p.IsTcp;
             txtIpAddress.Text = p.IpAddress;

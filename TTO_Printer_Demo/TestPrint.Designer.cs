@@ -17,8 +17,16 @@
 
         private void InitializeComponent()
         {
+            this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPrint = new System.Windows.Forms.TabPage();
+            this.tabProtocols = new System.Windows.Forms.TabPage();
+            this.btnDeleteProtocol = new System.Windows.Forms.Button();
+
+            // Main UI Controls
             this.grpSystem = new System.Windows.Forms.GroupBox();
             this.btnAddPrinter = new System.Windows.Forms.Button();
+            this.btnEditPrinter = new System.Windows.Forms.Button();
+            this.btnDeletePrinter = new System.Windows.Forms.Button();
             this.cmbPrinterType = new System.Windows.Forms.ComboBox();
             this.lblPrinterType = new System.Windows.Forms.Label();
             this.grpConn = new System.Windows.Forms.GroupBox();
@@ -53,55 +61,187 @@
             this.lblMsg = new System.Windows.Forms.Label();
             this.btnSend = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
+
+            // Protocol Tab Controls
+            this.dgvProtocols = new System.Windows.Forms.DataGridView();
+            this.lblProtocolTitle = new System.Windows.Forms.Label();
+            this.btnSaveProtocols = new System.Windows.Forms.Button();
+
+            this.tabControlMain.SuspendLayout();
+            this.tabPrint.SuspendLayout();
+            this.tabProtocols.SuspendLayout();
             this.grpSystem.SuspendLayout();
             this.grpConn.SuspendLayout();
             this.grpData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomFields)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProtocols)).BeginInit();
             this.SuspendLayout();
+            // 
+            // Protocol Tab Setup (New Functionality UI)
+            // 
+            this.lblProtocolTitle.AutoSize = true;
+            this.lblProtocolTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblProtocolTitle.Location = new System.Drawing.Point(20, 20);
+            this.lblProtocolTitle.Name = "lblProtocolTitle";
+            this.lblProtocolTitle.Size = new System.Drawing.Size(286, 28);
+            this.lblProtocolTitle.Text = "Custom Protocol Configurations";
+
+            this.dgvProtocols.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvProtocols.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProtocols.Location = new System.Drawing.Point(25, 60);
+            this.dgvProtocols.Name = "dgvProtocols";
+            this.dgvProtocols.Size = new System.Drawing.Size(700, 680);
+            this.dgvProtocols.TabIndex = 1;
+
+            // 
+            // btnDeleteProtocol (NEW)
+            // 
+            this.btnDeleteProtocol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeleteProtocol.BackColor = System.Drawing.Color.LightCoral;
+            this.btnDeleteProtocol.ForeColor = System.Drawing.Color.White;
+            this.btnDeleteProtocol.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnDeleteProtocol.Location = new System.Drawing.Point(415, 755);
+            this.btnDeleteProtocol.Name = "btnDeleteProtocol";
+            this.btnDeleteProtocol.Size = new System.Drawing.Size(150, 40);
+            this.btnDeleteProtocol.Text = "Delete Protocol";
+            this.btnDeleteProtocol.UseVisualStyleBackColor = false;
+            this.btnDeleteProtocol.Click += new System.EventHandler(this.btnDeleteProtocol_Click);
+
+            this.btnSaveProtocols.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveProtocols.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnSaveProtocols.ForeColor = System.Drawing.Color.White;
+            this.btnSaveProtocols.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSaveProtocols.Location = new System.Drawing.Point(575, 755);
+            this.btnSaveProtocols.Name = "btnSaveProtocols";
+            this.btnSaveProtocols.Size = new System.Drawing.Size(150, 40);
+            this.btnSaveProtocols.Text = "Save Protocols";
+            this.btnSaveProtocols.UseVisualStyleBackColor = false;
+            this.btnSaveProtocols.Click += new System.EventHandler(this.btnSaveProtocols_Click);
+            // 
+            // tabProtocols
+            // 
+            this.tabProtocols.Controls.Add(this.btnDeleteProtocol); // Add delete button
+            this.tabProtocols.Controls.Add(this.btnSaveProtocols);
+            this.tabProtocols.Controls.Add(this.lblProtocolTitle);
+            this.tabProtocols.Controls.Add(this.dgvProtocols);
+            this.tabProtocols.Location = new System.Drawing.Point(4, 29);
+            this.tabProtocols.Name = "tabProtocols";
+            this.tabProtocols.Padding = new System.Windows.Forms.Padding(3);
+            this.tabProtocols.Size = new System.Drawing.Size(752, 812);
+            this.tabProtocols.TabIndex = 1;
+            this.tabProtocols.Text = "Protocol Management";
+            this.tabProtocols.UseVisualStyleBackColor = true;
+            // 
+            // tabControlMain
+            // 
+            this.tabControlMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlMain.Controls.Add(this.tabPrint);
+            this.tabControlMain.Controls.Add(this.tabProtocols);
+            this.tabControlMain.Location = new System.Drawing.Point(12, 12);
+            this.tabControlMain.Name = "tabControlMain";
+            this.tabControlMain.SelectedIndex = 0;
+            this.tabControlMain.Size = new System.Drawing.Size(760, 845);
+            this.tabControlMain.TabIndex = 0;
+            // 
+            // tabPrint
+            // 
+            this.tabPrint.Controls.Add(this.grpSystem);
+            this.tabPrint.Controls.Add(this.grpConn);
+            this.tabPrint.Controls.Add(this.grpData);
+            this.tabPrint.Controls.Add(this.btnSend);
+            this.tabPrint.Controls.Add(this.txtLog);
+            this.tabPrint.Location = new System.Drawing.Point(4, 29);
+            this.tabPrint.Name = "tabPrint";
+            this.tabPrint.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPrint.Size = new System.Drawing.Size(752, 812);
+            this.tabPrint.TabIndex = 0;
+            this.tabPrint.Text = "Main Operations";
+            this.tabPrint.UseVisualStyleBackColor = true;
+            // 
+            // tabProtocols
+            // 
+            this.tabProtocols.Controls.Add(this.btnSaveProtocols);
+            this.tabProtocols.Controls.Add(this.lblProtocolTitle);
+            this.tabProtocols.Controls.Add(this.dgvProtocols);
+            this.tabProtocols.Location = new System.Drawing.Point(4, 29);
+            this.tabProtocols.Name = "tabProtocols";
+            this.tabProtocols.Padding = new System.Windows.Forms.Padding(3);
+            this.tabProtocols.Size = new System.Drawing.Size(752, 812);
+            this.tabProtocols.TabIndex = 1;
+            this.tabProtocols.Text = "Protocol Management";
+            this.tabProtocols.UseVisualStyleBackColor = true;
             // 
             // grpSystem
             // 
             this.grpSystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpSystem.Controls.Add(this.btnDeletePrinter);
+            this.grpSystem.Controls.Add(this.btnEditPrinter);
             this.grpSystem.Controls.Add(this.btnAddPrinter);
             this.grpSystem.Controls.Add(this.cmbPrinterType);
             this.grpSystem.Controls.Add(this.lblPrinterType);
-            this.grpSystem.Location = new System.Drawing.Point(18, 12);
+            this.grpSystem.Location = new System.Drawing.Point(6, 6);
             this.grpSystem.Name = "grpSystem";
-            this.grpSystem.Size = new System.Drawing.Size(746, 75);
+            this.grpSystem.Size = new System.Drawing.Size(740, 75);
             this.grpSystem.TabIndex = 0;
             this.grpSystem.TabStop = false;
             this.grpSystem.Text = "1. Printer Profile Selection";
             // 
             // btnAddPrinter
             // 
-            this.btnAddPrinter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddPrinter.BackColor = System.Drawing.Color.Gainsboro;
             this.btnAddPrinter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnAddPrinter.Location = new System.Drawing.Point(600, 27);
+            this.btnAddPrinter.Location = new System.Drawing.Point(400, 27);
             this.btnAddPrinter.Name = "btnAddPrinter";
-            this.btnAddPrinter.Size = new System.Drawing.Size(130, 32);
+            this.btnAddPrinter.Size = new System.Drawing.Size(100, 32);
             this.btnAddPrinter.TabIndex = 2;
-            this.btnAddPrinter.Text = "+ Add Printer";
+            this.btnAddPrinter.Text = "Add";
             this.btnAddPrinter.UseVisualStyleBackColor = false;
             this.btnAddPrinter.Click += new System.EventHandler(this.btnAddPrinter_Click);
             // 
+            // btnEditPrinter
+            // 
+            this.btnEditPrinter.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnEditPrinter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnEditPrinter.Location = new System.Drawing.Point(510, 27);
+            this.btnEditPrinter.Name = "btnEditPrinter";
+            this.btnEditPrinter.Size = new System.Drawing.Size(100, 32);
+            this.btnEditPrinter.TabIndex = 3;
+            this.btnEditPrinter.Text = "Edit";
+            this.btnEditPrinter.UseVisualStyleBackColor = false;
+            this.btnEditPrinter.Click += new System.EventHandler(this.btnEditPrinter_Click);
+            // 
+            // btnDeletePrinter
+            // 
+            this.btnDeletePrinter.BackColor = System.Drawing.Color.LightCoral;
+            this.btnDeletePrinter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnDeletePrinter.ForeColor = System.Drawing.Color.White;
+            this.btnDeletePrinter.Location = new System.Drawing.Point(620, 27);
+            this.btnDeletePrinter.Name = "btnDeletePrinter";
+            this.btnDeletePrinter.Size = new System.Drawing.Size(100, 32);
+            this.btnDeletePrinter.TabIndex = 4;
+            this.btnDeletePrinter.Text = "Delete";
+            this.btnDeletePrinter.UseVisualStyleBackColor = false;
+            this.btnDeletePrinter.Click += new System.EventHandler(this.btnDeletePrinter_Click);
+            // 
             // cmbPrinterType
             // 
-            this.cmbPrinterType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbPrinterType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPrinterType.FormattingEnabled = true;
-            this.cmbPrinterType.Location = new System.Drawing.Point(135, 30);
+            this.cmbPrinterType.Location = new System.Drawing.Point(125, 30);
             this.cmbPrinterType.Name = "cmbPrinterType";
-            this.cmbPrinterType.Size = new System.Drawing.Size(450, 28);
+            this.cmbPrinterType.Size = new System.Drawing.Size(260, 28);
             this.cmbPrinterType.TabIndex = 1;
             this.cmbPrinterType.SelectedIndexChanged += new System.EventHandler(this.cmbPrinterType_SelectedIndexChanged);
             // 
             // lblPrinterType
             // 
             this.lblPrinterType.AutoSize = true;
-            this.lblPrinterType.Location = new System.Drawing.Point(20, 33);
+            this.lblPrinterType.Location = new System.Drawing.Point(15, 33);
             this.lblPrinterType.Name = "lblPrinterType";
             this.lblPrinterType.Size = new System.Drawing.Size(100, 20);
             this.lblPrinterType.TabIndex = 0;
@@ -127,159 +267,96 @@
             this.grpConn.Controls.Add(this.lblIp);
             this.grpConn.Controls.Add(this.rdoSerial);
             this.grpConn.Controls.Add(this.rdoTcp);
-            this.grpConn.Location = new System.Drawing.Point(18, 93);
+            this.grpConn.Location = new System.Drawing.Point(6, 87);
             this.grpConn.Name = "grpConn";
-            this.grpConn.Size = new System.Drawing.Size(746, 175);
+            this.grpConn.Size = new System.Drawing.Size(740, 175);
             this.grpConn.TabIndex = 1;
             this.grpConn.TabStop = false;
             this.grpConn.Text = "2. Industrial Interface & Serial Settings";
             // 
-            // cmbStopBits
-            // 
+            // cmbStopBits ... (Standard setup from original) ...
             this.cmbStopBits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbStopBits.FormattingEnabled = true;
             this.cmbStopBits.Location = new System.Drawing.Point(580, 132);
             this.cmbStopBits.Name = "cmbStopBits";
             this.cmbStopBits.Size = new System.Drawing.Size(90, 28);
             this.cmbStopBits.TabIndex = 15;
-            // 
-            // lblStopBits
-            // 
             this.lblStopBits.AutoSize = true;
             this.lblStopBits.Location = new System.Drawing.Point(505, 135);
             this.lblStopBits.Name = "lblStopBits";
             this.lblStopBits.Size = new System.Drawing.Size(65, 20);
-            this.lblStopBits.TabIndex = 14;
             this.lblStopBits.Text = "Stop Bit:";
-            // 
-            // cmbParity
-            // 
+
             this.cmbParity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbParity.FormattingEnabled = true;
             this.cmbParity.Location = new System.Drawing.Point(580, 95);
             this.cmbParity.Name = "cmbParity";
             this.cmbParity.Size = new System.Drawing.Size(90, 28);
-            this.cmbParity.TabIndex = 13;
-            // 
-            // lblParity
-            // 
             this.lblParity.AutoSize = true;
             this.lblParity.Location = new System.Drawing.Point(505, 98);
             this.lblParity.Name = "lblParity";
             this.lblParity.Size = new System.Drawing.Size(48, 20);
-            this.lblParity.TabIndex = 12;
             this.lblParity.Text = "Parity:";
-            // 
-            // cmbDataBits
-            // 
+
             this.cmbDataBits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDataBits.FormattingEnabled = true;
             this.cmbDataBits.Location = new System.Drawing.Point(580, 58);
             this.cmbDataBits.Name = "cmbDataBits";
             this.cmbDataBits.Size = new System.Drawing.Size(90, 28);
-            this.cmbDataBits.TabIndex = 11;
-            // 
-            // lblDataBits
-            // 
             this.lblDataBits.AutoSize = true;
             this.lblDataBits.Location = new System.Drawing.Point(505, 61);
             this.lblDataBits.Name = "lblDataBits";
             this.lblDataBits.Size = new System.Drawing.Size(66, 20);
-            this.lblDataBits.TabIndex = 10;
             this.lblDataBits.Text = "Data Bit:";
-            // 
-            // cmbBaudRate
-            // 
+
             this.cmbBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbBaudRate.FormattingEnabled = true;
             this.cmbBaudRate.Location = new System.Drawing.Point(365, 95);
             this.cmbBaudRate.Name = "cmbBaudRate";
             this.cmbBaudRate.Size = new System.Drawing.Size(100, 28);
-            this.cmbBaudRate.TabIndex = 9;
-            // 
-            // lblBaud
-            // 
             this.lblBaud.AutoSize = true;
             this.lblBaud.Location = new System.Drawing.Point(275, 98);
             this.lblBaud.Name = "lblBaud";
             this.lblBaud.Size = new System.Drawing.Size(80, 20);
-            this.lblBaud.TabIndex = 8;
             this.lblBaud.Text = "Baud Rate:";
-            // 
-            // cmbComPort
-            // 
+
             this.cmbComPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbComPort.FormattingEnabled = true;
             this.cmbComPort.Location = new System.Drawing.Point(365, 58);
             this.cmbComPort.Name = "cmbComPort";
             this.cmbComPort.Size = new System.Drawing.Size(100, 28);
-            this.cmbComPort.TabIndex = 7;
-            // 
-            // lblCom
-            // 
             this.lblCom.AutoSize = true;
             this.lblCom.Location = new System.Drawing.Point(275, 61);
             this.lblCom.Name = "lblCom";
             this.lblCom.Size = new System.Drawing.Size(75, 20);
-            this.lblCom.TabIndex = 6;
             this.lblCom.Text = "COM Port:";
-            // 
-            // txtTcpPort
-            // 
+
             this.txtTcpPort.Location = new System.Drawing.Point(105, 95);
             this.txtTcpPort.Name = "txtTcpPort";
             this.txtTcpPort.Size = new System.Drawing.Size(130, 27);
-            this.txtTcpPort.TabIndex = 4;
-            this.txtTcpPort.Text = "3001";
-            // 
-            // lblPort
-            // 
             this.lblPort.AutoSize = true;
             this.lblPort.Location = new System.Drawing.Point(20, 98);
             this.lblPort.Name = "lblPort";
             this.lblPort.Size = new System.Drawing.Size(38, 20);
-            this.lblPort.TabIndex = 3;
             this.lblPort.Text = "Port:";
-            // 
-            // txtIpAddress
-            // 
+
             this.txtIpAddress.Location = new System.Drawing.Point(105, 58);
             this.txtIpAddress.Name = "txtIpAddress";
             this.txtIpAddress.Size = new System.Drawing.Size(130, 27);
-            this.txtIpAddress.TabIndex = 2;
-            this.txtIpAddress.Text = "192.168.1.100";
-            // 
-            // lblIp
-            // 
             this.lblIp.AutoSize = true;
             this.lblIp.Location = new System.Drawing.Point(20, 61);
             this.lblIp.Name = "lblIp";
             this.lblIp.Size = new System.Drawing.Size(81, 20);
-            this.lblIp.TabIndex = 1;
             this.lblIp.Text = "IP Address:";
-            // 
-            // rdoSerial
-            // 
+
             this.rdoSerial.AutoSize = true;
             this.rdoSerial.Location = new System.Drawing.Point(275, 27);
             this.rdoSerial.Name = "rdoSerial";
             this.rdoSerial.Size = new System.Drawing.Size(118, 24);
-            this.rdoSerial.TabIndex = 5;
             this.rdoSerial.Text = "RS-232 Serial";
-            this.rdoSerial.UseVisualStyleBackColor = true;
-            // 
-            // rdoTcp
-            // 
+
             this.rdoTcp.AutoSize = true;
-            this.rdoTcp.Checked = true;
             this.rdoTcp.Location = new System.Drawing.Point(20, 27);
             this.rdoTcp.Name = "rdoTcp";
             this.rdoTcp.Size = new System.Drawing.Size(72, 24);
-            this.rdoTcp.TabIndex = 0;
-            this.rdoTcp.TabStop = true;
             this.rdoTcp.Text = "TCP/IP";
-            this.rdoTcp.UseVisualStyleBackColor = true;
             this.rdoTcp.CheckedChanged += new System.EventHandler(this.rdoTcp_CheckedChanged);
+
             // 
             // grpData
             // 
@@ -297,47 +374,35 @@
             this.grpData.Controls.Add(this.lblBatch);
             this.grpData.Controls.Add(this.txtMessageName);
             this.grpData.Controls.Add(this.lblMsg);
-            this.grpData.Location = new System.Drawing.Point(18, 275);
+            this.grpData.Location = new System.Drawing.Point(6, 268);
             this.grpData.Name = "grpData";
-            this.grpData.Size = new System.Drawing.Size(746, 290);
+            this.grpData.Size = new System.Drawing.Size(740, 290);
             this.grpData.TabIndex = 2;
             this.grpData.TabStop = false;
             this.grpData.Text = "3. Variable Print Payload (Core & Dynamic Variables)";
-            // 
-            // btnRemoveField
-            // 
+
+            // ... (Data Controls remain positioned exactly as original) ...
             this.btnRemoveField.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveField.Location = new System.Drawing.Point(620, 247);
             this.btnRemoveField.Name = "btnRemoveField";
             this.btnRemoveField.Size = new System.Drawing.Size(100, 32);
-            this.btnRemoveField.TabIndex = 11;
             this.btnRemoveField.Text = "- Remove";
-            this.btnRemoveField.UseVisualStyleBackColor = true;
             this.btnRemoveField.Click += new System.EventHandler(this.btnRemoveField_Click);
-            // 
-            // btnAddField
-            // 
+
             this.btnAddField.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddField.Location = new System.Drawing.Point(505, 247);
             this.btnAddField.Name = "btnAddField";
             this.btnAddField.Size = new System.Drawing.Size(105, 32);
-            this.btnAddField.TabIndex = 10;
             this.btnAddField.Text = "+ Add Field";
-            this.btnAddField.UseVisualStyleBackColor = true;
             this.btnAddField.Click += new System.EventHandler(this.btnAddField_Click);
-            // 
-            // lblCustomGrid
-            // 
+
             this.lblCustomGrid.AutoSize = true;
             this.lblCustomGrid.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblCustomGrid.Location = new System.Drawing.Point(380, 28);
             this.lblCustomGrid.Name = "lblCustomGrid";
             this.lblCustomGrid.Size = new System.Drawing.Size(177, 20);
-            this.lblCustomGrid.TabIndex = 9;
             this.lblCustomGrid.Text = "Dynamic Payload Fields:";
-            // 
-            // dgvCustomFields
-            // 
+
             this.dgvCustomFields.AllowUserToAddRows = false;
             this.dgvCustomFields.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
@@ -345,76 +410,46 @@
             this.dgvCustomFields.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCustomFields.Location = new System.Drawing.Point(380, 52);
             this.dgvCustomFields.Name = "dgvCustomFields";
-            this.dgvCustomFields.RowHeadersWidth = 30;
             this.dgvCustomFields.Size = new System.Drawing.Size(340, 185);
-            this.dgvCustomFields.TabIndex = 8;
-            // 
-            // dtpExpDate
-            // 
+
             this.dtpExpDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpExpDate.Location = new System.Drawing.Point(140, 185);
             this.dtpExpDate.Name = "dtpExpDate";
             this.dtpExpDate.Size = new System.Drawing.Size(215, 27);
-            this.dtpExpDate.TabIndex = 7;
-            // 
-            // lblExp
-            // 
             this.lblExp.AutoSize = true;
             this.lblExp.Location = new System.Drawing.Point(20, 188);
             this.lblExp.Name = "lblExp";
             this.lblExp.Size = new System.Drawing.Size(73, 20);
-            this.lblExp.TabIndex = 6;
             this.lblExp.Text = "EXP Date:";
-            // 
-            // dtpMfgDate
-            // 
+
             this.dtpMfgDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpMfgDate.Location = new System.Drawing.Point(140, 140);
             this.dtpMfgDate.Name = "dtpMfgDate";
             this.dtpMfgDate.Size = new System.Drawing.Size(215, 27);
-            this.dtpMfgDate.TabIndex = 5;
-            // 
-            // lblMfg
-            // 
             this.lblMfg.AutoSize = true;
             this.lblMfg.Location = new System.Drawing.Point(20, 143);
             this.lblMfg.Name = "lblMfg";
             this.lblMfg.Size = new System.Drawing.Size(78, 20);
-            this.lblMfg.TabIndex = 4;
             this.lblMfg.Text = "MFG Date:";
-            // 
-            // txtBatchNo
-            // 
+
             this.txtBatchNo.Location = new System.Drawing.Point(140, 95);
             this.txtBatchNo.Name = "txtBatchNo";
             this.txtBatchNo.Size = new System.Drawing.Size(215, 27);
-            this.txtBatchNo.TabIndex = 3;
-            // 
-            // lblBatch
-            // 
             this.lblBatch.AutoSize = true;
             this.lblBatch.Location = new System.Drawing.Point(20, 98);
             this.lblBatch.Name = "lblBatch";
             this.lblBatch.Size = new System.Drawing.Size(73, 20);
-            this.lblBatch.TabIndex = 2;
             this.lblBatch.Text = "Batch No:";
-            // 
-            // txtMessageName
-            // 
+
             this.txtMessageName.Location = new System.Drawing.Point(140, 50);
             this.txtMessageName.Name = "txtMessageName";
             this.txtMessageName.Size = new System.Drawing.Size(215, 27);
-            this.txtMessageName.TabIndex = 1;
-            this.txtMessageName.Text = "DEFAULT_JOB";
-            // 
-            // lblMsg
-            // 
             this.lblMsg.AutoSize = true;
             this.lblMsg.Location = new System.Drawing.Point(20, 53);
             this.lblMsg.Name = "lblMsg";
             this.lblMsg.Size = new System.Drawing.Size(114, 20);
-            this.lblMsg.TabIndex = 0;
             this.lblMsg.Text = "Message Name:";
+
             // 
             // btnSend
             // 
@@ -423,13 +458,14 @@
             this.btnSend.BackColor = System.Drawing.Color.SteelBlue;
             this.btnSend.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSend.ForeColor = System.Drawing.Color.White;
-            this.btnSend.Location = new System.Drawing.Point(18, 575);
+            this.btnSend.Location = new System.Drawing.Point(6, 564);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(746, 52);
+            this.btnSend.Size = new System.Drawing.Size(740, 52);
             this.btnSend.TabIndex = 3;
             this.btnSend.Text = "PRINT";
             this.btnSend.UseVisualStyleBackColor = false;
             this.btnSend.Click += new System.EventHandler(this.BtnSend_Click);
+
             // 
             // txtLog
             // 
@@ -438,30 +474,61 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLog.BackColor = System.Drawing.Color.Silver;
             this.txtLog.Font = new System.Drawing.Font("Consolas", 9F);
-            this.txtLog.ForeColor = System.Drawing.Color.Black;
-            this.txtLog.Location = new System.Drawing.Point(18, 638);
+            this.txtLog.Location = new System.Drawing.Point(6, 622);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(746, 215);
+            this.txtLog.Size = new System.Drawing.Size(740, 184);
             this.txtLog.TabIndex = 4;
+
+            // 
+            // Protocol Tab Setup (New Functionality UI)
+            // 
+            this.lblProtocolTitle.AutoSize = true;
+            this.lblProtocolTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblProtocolTitle.Location = new System.Drawing.Point(20, 20);
+            this.lblProtocolTitle.Name = "lblProtocolTitle";
+            this.lblProtocolTitle.Size = new System.Drawing.Size(286, 28);
+            this.lblProtocolTitle.Text = "Custom Protocol Configurations";
+
+            this.dgvProtocols.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvProtocols.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProtocols.Location = new System.Drawing.Point(25, 60);
+            this.dgvProtocols.Name = "dgvProtocols";
+            this.dgvProtocols.Size = new System.Drawing.Size(700, 680);
+            this.dgvProtocols.TabIndex = 1;
+
+            this.btnSaveProtocols.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveProtocols.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnSaveProtocols.ForeColor = System.Drawing.Color.White;
+            this.btnSaveProtocols.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSaveProtocols.Location = new System.Drawing.Point(575, 755);
+            this.btnSaveProtocols.Name = "btnSaveProtocols";
+            this.btnSaveProtocols.Size = new System.Drawing.Size(150, 40);
+            this.btnSaveProtocols.Text = "Save Protocols";
+            this.btnSaveProtocols.UseVisualStyleBackColor = false;
+
             // 
             // TestPrint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 868);
-            this.Controls.Add(this.txtLog);
-            this.Controls.Add(this.btnSend);
-            this.Controls.Add(this.grpData);
-            this.Controls.Add(this.grpConn);
-            this.Controls.Add(this.grpSystem);
-            this.MinimumSize = new System.Drawing.Size(780, 850);
+            this.Controls.Add(this.tabControlMain);
+            this.MinimumSize = new System.Drawing.Size(800, 915);
             this.Name = "TestPrint";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Advanced Industrial Dynamic Printer Controller";
             this.Load += new System.EventHandler(this.TestPrint_Load);
+
+            this.tabControlMain.ResumeLayout(false);
+            this.tabPrint.ResumeLayout(false);
+            this.tabPrint.PerformLayout();
+            this.tabProtocols.ResumeLayout(false);
+            this.tabProtocols.PerformLayout();
             this.grpSystem.ResumeLayout(false);
             this.grpSystem.PerformLayout();
             this.grpConn.ResumeLayout(false);
@@ -469,14 +536,27 @@
             this.grpData.ResumeLayout(false);
             this.grpData.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomFields)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProtocols)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
 
         #endregion
 
+        // Tab Architecture
+        private System.Windows.Forms.TabControl tabControlMain;
+        private System.Windows.Forms.TabPage tabPrint;
+        private System.Windows.Forms.TabPage tabProtocols;
+
+        // Protocol Layout fields
+        private System.Windows.Forms.DataGridView dgvProtocols;
+        private System.Windows.Forms.Label lblProtocolTitle;
+        private System.Windows.Forms.Button btnSaveProtocols;
+
+        // Main Controls
         private System.Windows.Forms.GroupBox grpSystem;
         private System.Windows.Forms.Button btnAddPrinter;
+        private System.Windows.Forms.Button btnEditPrinter;
+        private System.Windows.Forms.Button btnDeletePrinter;
         private System.Windows.Forms.Label lblPrinterType;
         private System.Windows.Forms.ComboBox cmbPrinterType;
         private System.Windows.Forms.GroupBox grpConn;
@@ -511,5 +591,6 @@
         private System.Windows.Forms.Label lblCustomGrid;
         private System.Windows.Forms.Button btnRemoveField;
         private System.Windows.Forms.Button btnAddField;
+        private System.Windows.Forms.Button btnDeleteProtocol;
     }
 }

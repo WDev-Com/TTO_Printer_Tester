@@ -6,6 +6,7 @@ using System.Text.Json;
 
 namespace TTO_Printer_Demo
 {
+    // --- EXISTING PRINTER PROFILE LOGIC (Preserved) ---
     public class PrinterProfile
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -32,21 +33,12 @@ namespace TTO_Printer_Demo
         {
             try
             {
-                if (!File.Exists(FilePath))
-                {
-                    var defaults = GetDefaultProfiles();
-                    SavePrinters(defaults);
-                    return defaults;
-                }
-
+                if (!File.Exists(FilePath)) return new List<PrinterProfile>();
                 string json = File.ReadAllText(FilePath);
                 var profiles = JsonSerializer.Deserialize<List<PrinterProfile>>(json);
-                return profiles ?? GetDefaultProfiles();
+                return profiles ?? new List<PrinterProfile>();
             }
-            catch
-            {
-                return GetDefaultProfiles();
-            }
+            catch { return new List<PrinterProfile>(); }
         }
 
         public static void SavePrinters(List<PrinterProfile> profiles)
@@ -55,46 +47,78 @@ namespace TTO_Printer_Demo
             string json = JsonSerializer.Serialize(profiles, options);
             File.WriteAllText(FilePath, json);
         }
+    }
 
-        private static List<PrinterProfile> GetDefaultProfiles()
+    // --- NEW PROTOCOL LOGIC ---
+    public class PrinterProtocol
+    {
+        public string Name { get; set; } = string.Empty;
+        public string PrefixHex { get; set; } = string.Empty;
+        public string CommandPrefix { get; set; } = string.Empty;
+        public string VariableTemplate { get; set; } = string.Empty;
+        public string SuffixHex { get; set; } = string.Empty;
+    }
+
+    public static class ProtocolRepository
+    {
+        private static readonly string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "protocols.json");
+
+        public static List<PrinterProtocol> LoadProtocols()
         {
-            return new List<PrinterProfile>
+            try
             {
-                new PrinterProfile
+                if (!File.Exists(FilePath))
                 {
-                    Name = "Packaging Line 1 - Linx",
-                    Protocol = "Linx TT 500 (CLARiNET Protocol)",
-                    IsTcp = true,
-                    IpAddress = "192.168.1.101",
-                    TcpPort = 3001,
-                    ComPort = "COM1",
-                    BaudRate = 9600,
-                    DataBits = 8,
-                    Parity = Parity.None,
-                    StopBits = StopBits.One
+                    var defaults = GetDefaultProtocols();
+                    SaveProtocols(defaults);
+                    return defaults;
+                }
+
+                string json = File.ReadAllText(FilePath);
+                var protocols = JsonSerializer.Deserialize<List<PrinterProtocol>>(json);
+                return protocols ?? GetDefaultProtocols();
+            }
+            catch
+            {
+                return GetDefaultProtocols();
+            }
+        }
+
+        public static void SaveProtocols(List<PrinterProtocol> protocols)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(protocols, options);
+            File.WriteAllText(FilePath, json);
+        }
+
+        private static List<PrinterProtocol> GetDefaultProtocols()
+        {
+            // Requirement 3: Save default 3 protocols
+            return new List<PrinterProtocol>
+            {
+                new PrinterProtocol
+                {
+                    Name = "Linx TT 500 (CLARiNET Protocol)",
+                    PrefixHex = "02",
+                    CommandPrefix = "JMD",
+                    VariableTemplate = "|{KEY}={VALUE}",
+                    SuffixHex = "0D 03"
                 },
-                new PrinterProfile
+                new PrinterProtocol
                 {
-                    Name = "Bottling Line - Dotsmark CIJ",
-                    Protocol = "Dotsmark Systems (CIJ / TIJ / Laser / Dikai OEM)",
-                    IsTcp = false,
-                    ComPort = "COM3",
-                    BaudRate = 115200,
-                    DataBits = 8,
-                    Parity = Parity.None,
-                    StopBits = StopBits.One
+                    Name = "Dotsmark Systems (CIJ / TIJ / Laser / Dikai OEM)",
+                    PrefixHex = "02",
+                    CommandPrefix = "SETVAR|NAME={MSG_NAME}",
+                    VariableTemplate = "|{KEY}={VALUE}",
+                    SuffixHex = "0D 0A 03"
                 },
-                new PrinterProfile
+                new PrinterProtocol
                 {
-                    Name = "Carton Line - Markem Imaje X40",
-                    Protocol = "Markem-Imaje SmartDate X40 (TTO - NGP/CoLOS)",
-                    IsTcp = true,
-                    IpAddress = "192.168.1.150",
-                    TcpPort = 2001,
-                    BaudRate = 9600,
-                    DataBits = 8,
-                    Parity = Parity.None,
-                    StopBits = StopBits.One
+                    Name = "Markem-Imaje SmartDate X40 (TTO - NGP/CoLOS)",
+                    PrefixHex = "02",
+                    CommandPrefix = "", // Markem puts variables right after STX usually
+                    VariableTemplate = "!V|{KEY}|{VALUE}<CR>",
+                    SuffixHex = "03"
                 }
             };
         }
